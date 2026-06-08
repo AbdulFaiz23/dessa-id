@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
+export const dynamic = 'force-dynamic';
+
 // Initialize Supabase client for storage
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 // Using the service role key for backend operations to bypass RLS for uploads
