@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  fullName  String
+  email     String   @unique
+  password  String
+  whatsapp  String?
+  role      String   @default("seller")
+  createdAt DateTime @default(now())
+  listings  Listing[]
+  subscriptions Subscription[]
+  orders        Order[]
+}
+
+model Listing {
+  id          String   @id @default(cuid())
+  sellerId    String
+  seller      User     @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  title       String
+  description String
+  area        Float
+  price       Int
+  category    String
+  docType         String
+  certificateFile String?
+  latitude        Float
+  longitude   Float
+  status      String   @default("pending")
+  verified    Boolean  @default(false)
+  adminNote   String?
+  image       String?
+  photos      String?  // JSON array of photo URLs
+  viewCount   Int      @default(0)
+  deactivatedReason String?
+  lastActiveAt      DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Subscription {
+  id             String    @id @default(cuid())
+  sellerId       String
+  seller         User      @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  plan           String    
+  status         String    
+  startedAt      DateTime  @default(now())
+  expiredAt      DateTime
+  maxListings    Int
+  isWhitelisted  Boolean   @default(false)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model Order {
+  id                    String    @id @default(cuid())
+  orderId               String    @unique
+  sellerId              String
+  seller                User      @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  plan                  String
+  amount                Int
+  paymentMethod         String?
+  snapToken             String?
+  midtransTransactionId String?
+  status                String    @default("pending") 
+  paidAt                DateTime?
+  webhookRaw            String?   
+  createdAt             DateTime  @default(now())
+}

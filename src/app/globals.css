@@ -4,6 +4,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "leaflet/dist/leaflet.css";
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -87,8 +89,17 @@
   }
   body {
     @apply bg-background text-foreground;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
   }
   html {
     @apply font-sans;
+  }
+
+  /* Heading font utility */
+  .font-heading {
+    font-family: var(--font-dm-serif), Georgia, "Times New Roman", serif;
   }
 }

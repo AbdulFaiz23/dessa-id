@@ -11,9 +11,10 @@ interface LandCardProps {
   docType: string;
   verified: boolean;
   category: string;
+  image?: string;
 }
 
-export function LandCard({ id, title, location, price, area, docType, verified, category }: LandCardProps) {
+export function LandCard({ id, title, location, price, area, docType, verified, category, image }: LandCardProps) {
   const formattedPrice = new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
@@ -27,8 +28,11 @@ export function LandCard({ id, title, location, price, area, docType, verified, 
     >
       {/* Image Container */}
       <div className="relative aspect-[4/3] bg-earth-200 flex items-center justify-center overflow-hidden">
-        {/* Placeholder for real image */}
-        <ImageIcon className="w-10 h-10 text-earth-500 opacity-50" />
+        {image ? (
+          <img src={image} alt={title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+        ) : (
+          <ImageIcon className="w-10 h-10 text-earth-500 opacity-50" />
+        )}
         
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-earth-900/60 to-transparent pointer-events-none" />

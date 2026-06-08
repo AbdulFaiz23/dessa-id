@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Serif_Display, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/Navbar";
-import { Footer } from "@/components/Footer";
+import { AuthProvider } from "@/context/AuthContext";
 
 const dmSerif = DM_Serif_Display({
   subsets: ["latin"],
@@ -27,12 +26,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id" className="scroll-smooth">
-      <body className={`${dmSerif.variable} ${jakarta.variable} font-sans antialiased bg-earth-50 text-earth-900 flex flex-col min-h-screen`}>
-        <Navbar />
-        <div className="flex-1">
+      <body className={`${dmSerif.variable} ${jakarta.variable} font-sans antialiased bg-earth-50 text-earth-900`}>
+        <AuthProvider>
           {children}
-        </div>
-        <Footer />
+        </AuthProvider>
       </body>
     </html>
   );
