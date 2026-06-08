@@ -8,9 +8,14 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const listing = await prisma.listing.findUnique({
-    where: { id: params.id },
-  });
+  let listing = null;
+  try {
+    listing = await prisma.listing.findUnique({
+      where: { id: params.id },
+    });
+  } catch (error) {
+    console.warn("Prisma error during generateMetadata:", error);
+  }
 
   if (!listing) {
     return {
